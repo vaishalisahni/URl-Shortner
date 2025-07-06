@@ -3,7 +3,7 @@ const { nanoid } = require("nanoid");
 const URL = require("../models/url");
 
 async function handleGenerateNewShortURL(req, res) {
-    const allUrls = await URL.find({});
+    const allUrls = await URL.find({createdBy:req.user._id});
     const body = req.body;
     if (!body.url) {
         return res.status(400).json({ message: "URL is required" });
@@ -13,7 +13,8 @@ async function handleGenerateNewShortURL(req, res) {
     await URL.create({
         shortId: shortId,
         redirectUrl: body.url,
-        visitHistory: []
+        visitHistory: [],
+        createdBy: req.user._id, // this came bcoz we are using middleware where we are passing req.user
     });
     return res.render("home", {
         id: shortId,
