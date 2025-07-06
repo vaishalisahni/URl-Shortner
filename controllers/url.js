@@ -3,6 +3,7 @@ const { nanoid } = require("nanoid");
 const URL = require("../models/url");
 
 async function handleGenerateNewShortURL(req, res) {
+    const allUrls = await URL.find({});
     const body = req.body;
     if (!body.url) {
         return res.status(400).json({ message: "URL is required" });
@@ -14,33 +15,37 @@ async function handleGenerateNewShortURL(req, res) {
         redirectUrl: body.url,
         visitHistory: []
     });
-    return res.render("home",{id: shortId});
+    return res.render("home", {
+        id: shortId,
+        urls: allUrls,
+    });
     // return res.status(201).json({ message: "Short URL created successfully", id: shortId });
 }
 
 async function handleGetOriginalURL(req, res) {
     const shortId = req.params.shortId;
-    const entry = await URL.findOneAndUpdate({ 
-        shortId 
-    }, { $push: 
-        { visitHistory: {
-             timestamps: new Date() 
-            } 
-        } 
+    const entry = await URL.findOneAndUpdate({
+        shortId
+    }, {
+        $push:
+        {
+            visitHistory: {
+                timestamps: new Date()
+            }
+        }
     });
 
     res.redirect(entry.redirectUrl);
 }
 
-async function handleGetAnalytics(req,res)
-{
-    const shortId=req.params.shortId;
+async function handleGetAnalytics(req, res) {
+    const shortId = req.params.shortId;
 
-    const result = await URL.findOne({shortId})
+    const result = await URL.findOne({ shortId })
 
     return res.json({
         totalClicks: result.visitHistory.length,
-        analytics:result.visitHistory,
+        analytics: result.visitHistory,
     })
 }
 
