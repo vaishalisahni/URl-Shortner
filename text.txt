@@ -1,4 +1,24 @@
 we will be replicating bitly website .... 
-
+ Part 1- obly backend 
 for creating short id ---> we will install npm i nanoid
  similar to bitly we will be using 8 characters id
+
+
+part 2 - Frontend also using ejs
+for server side rendering - we will be using a template engine - EJS
+install ejs- npm i ejs
+
+ejs files are simple html .. we will create views folder .. inside that we will have ejs files like home.ejs
+
+// telling express which view engine to use - ejs
+app.set("view engine","ejs");
+
+now we will tell where are the ejs files .. for that we need to import path module ...built in ... 
+app.set("views",path.resolve("./views"))
+
+twsting code for home.js->
+<!-- Testing  code -->
+    <h1>Hey from server</h1>
+    <% urls.forEach(url=>{ %>
+        <li> <%= url.shortId %> </li>
+    <% }) %>

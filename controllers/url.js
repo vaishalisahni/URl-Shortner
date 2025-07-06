@@ -14,8 +14,8 @@ async function handleGenerateNewShortURL(req, res) {
         redirectUrl: body.url,
         visitHistory: []
     });
-
-    return res.status(201).json({ message: "Short URL created successfully", id: shortId });
+    return res.render("home",{id: shortId});
+    // return res.status(201).json({ message: "Short URL created successfully", id: shortId });
 }
 
 async function handleGetOriginalURL(req, res) {
