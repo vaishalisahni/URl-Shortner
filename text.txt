@@ -1,0 +1,4 @@
+we will be replicating bitly website .... 
+
+for creating short id ---> we will install npm i nanoid
+ similar to bitly we will be using 8 characters id
